@@ -1,8 +1,7 @@
 import { app } from "./app.js";
-import { loadEnvFile } from 'node:process';
+
 import connectDB from "./database/db.js";
 
-loadEnvFile();
 
 connectDB()
 .then(() => {
