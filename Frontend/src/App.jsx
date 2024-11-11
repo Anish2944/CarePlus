@@ -15,6 +15,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Context } from "./main";
 const App = () => {
+
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+
+
   const { isAuthenticated, setIsAuthenticated, setUser } =
     useContext(Context);
 
@@ -22,7 +26,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/user/patient/me",
+          `${backendURL}/api/v1/`,
           {
             withCredentials: true,
           }

@@ -7,22 +7,27 @@
   font-family: "Montserrat", sans-serif;
 }
 body {
-  background: #e5e5e5;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
 }
 .btn {
   padding: 7px 20px;
   border-radius: 12px;
   border: none;
   font-weight: bold;
+  
   letter-spacing: 2px;
 }
 .white-btn {
   background: #fff;
   color: #111;
+  cursor: pointer;
 }
 .purple-btn {
-  background: #9083d5;
-  color: #fff;
+  background: #d5ad83;
+  color: #f31313;
+  cursor: pointer;
 }
 p,
 span,
@@ -65,7 +70,9 @@ h6 {
   }
 }
 .container {
-  padding: 0 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 @media (max-width: 700px) {
   .container {
@@ -283,103 +290,117 @@ h6 {
     flex-direction: column-reverse;
   }
 }
-.message-form {
-  position: relative;
-}
-.message-form h2 {
+.contact-form {
+  padding: 50px 0;
   text-align: center;
-  color: #000;
-  position: relative;
-}
-.message-form img {
-  position: absolute;
-  top: 0;
-  right: -16%;
-  height: 600px;
-  z-index: -1;
-}
-@media (max-width: 700px) {
-  .message-form img {
-    right: -35%;
-    height: 450px;
-    top: 10%;
-  }
-}
-footer {
-  padding-bottom: 30px !important;
-}
-footer hr {
-  margin-bottom: 30px;
-}
-footer .content {
-  display: flex;
-  gap: 20px;
-}
-footer .content div {
-  flex: 1;
-}
-footer .content div:nth-child(3) {
-  flex: 2;
-}
-footer .content div h4 {
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-footer .content div ul {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-footer .content div ul a {
-  color: gray;
-  text-decoration: none;
-}
-footer .content div ul a:hover {
-  color: #8570ed;
-  transition: 0.3s;
-}
-footer .content div ul li span {
-  color: gray;
-}
-footer .content div ul li span:first-child {
-  width: 150px;
-  display: inline-block;
 }
 
-footer .content div:last-child div {
+.contact-form h2 {
+  color: #271776;
+  margin-bottom: 30px;
+}
+
+.contact-form form {
+  max-width: 600px;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 15px;
 }
-footer .content div:last-child div svg {
-  font-size: 24px;
+
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 16px;
 }
-@media (max-width: 1135px) {
-  footer .content {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  footer .content div,
-  footer .content div:nth-child(3) {
-    flex: none;
-    width: 340px;
-    margin-bottom: 30px;
-  }
+
+.contact-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #271776;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
 }
-@media (max-width: 900px) {
-  footer {
-    padding-bottom: 0 !important;
-  }
-  footer .content div,
-  footer .content div:nth-child(3) {
-    width: 100%;
-  }
+
+.contact-form button:hover {
+  background-color: #3f29a3;
 }
-@media (max-width: 390px) {
-  footer .content div:nth-child(3) ul li {
-    display: flex;
+
+.footer {
+  background: #f4f4f4;
+  padding: 20px 0;
+  color: #333;
+}
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+.footer-section h4 {
+  margin-bottom: 15px;
+  color: #222;
+}
+.footer-section ul {
+  list-style: none;
+}
+.footer-section p, .footer-section a {
+  color: #666;
+}
+.footer-bottom {
+  text-align: center;
+  padding: 10px;
+  background: #ddd;
+}
+.footer-bottom p {
+  margin: 0;
+}
+.socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.socials svg {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Department Cards */
+.departments {
+  padding: 50px 0;
+  text-align: center;
+}
+.department-card {
+  padding: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: white;
+}
+.department-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+.department-card h3 {
+  margin-top: 10px;
+  color: #271776;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .footer-content {
     flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    padding: 0 10px;
   }
 }
 
@@ -388,7 +409,7 @@ footer .content div:last-child div svg {
   padding-bottom: 50px;
 }
 .departments h2 {
-  color: orangered;
+  color: #271776;
   margin-bottom: 30px;
 }
 .card {
@@ -486,6 +507,7 @@ nav .btn {
   font-size: 20px;
   font-weight: 600;
   z-index: 2;
+
 }
 nav .btn:hover{
   color: orangered;
@@ -595,5 +617,49 @@ input[type="time"]:before {
   width: 150px;
 }
 footer .logo-img{
-  width: 100%;
+  width: 100px;
+  border-radius: 80px;
+}
+/* Testomonial */
+.testimonials {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.testimonials h2 {
+  color: #271776;
+  margin-bottom: 30px;
+}
+
+.testimonial-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.testimonial-card {
+  max-width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  text-align: center;
+}
+
+.testimonial-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.testimonial-card h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.testimonial-card p {
+  font-style: italic;
+  color: #666;
 }

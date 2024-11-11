@@ -1,88 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaLocationArrow, FaPhone } from "react-icons/fa6";
+import { FaFacebookF, FaTwitter, FaInstagram, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
-const Footer = () => {
-  const hours = [
-    {
-      id: 1,
-      day: "Monday",
-      time: "9:00 AM - 11:00 PM",
-    },
-    {
-      id: 2,
-      day: "Tuesday",
-      time: "12:00 PM - 12:00 AM",
-    },
-    {
-      id: 3,
-      day: "Wednesday",
-      time: "10:00 AM - 10:00 PM",
-    },
-    {
-      id: 4,
-      day: "Thursday",
-      time: "9:00 AM - 9:00 PM",
-    },
-    {
-      id: 5,
-      day: "Monday",
-      time: "3:00 PM - 9:00 PM",
-    },
-    {
-      id: 6,
-      day: "Saturday",
-      time: "9:00 AM - 3:00 PM",
-    },
-  ];
-
-  return (
-    <>
-      <footer className={"container"}>
-        <hr />
-        <div className="content">
-          <div>
-            <img src="/logo.png" alt="logo" className="logo-img"/>
-          </div>
-          <div>
-            <h4>Quick Links</h4>
-            <ul>
-              <Link to={"/"}>Home</Link>
-              <Link to={"/appointment"}>Appointment</Link>
-              <Link to={"/about"}>About</Link>
-            </ul>
-          </div>
-          <div>
-            <h4>Hours</h4>
-            <ul>
-              {hours.map((element) => (
-                <li key={element.id}>
-                  <span>{element.day}</span>
-                  <span>{element.time}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4>Contact</h4>
-            <div>
-              <FaPhone />
-              <span>9560789815</span>
-            </div>
-            <div>
-              <MdEmail />
-              <span>smartcare@gmail.com</span>
-            </div>
-            <div>
-              <FaLocationArrow />
-              <span>Lucknow, India</span>
-            </div>
-          </div>
+const Footer = () => (
+  <footer className="footer">
+    <div className="footer-content container">
+      <div className="footer-section about">
+        <img src="/logo.png" alt="Healthcare Logo" className="logo-img" />
+        <p>
+          Smart Healthcare System is dedicated to providing quality healthcare services, focusing on patient experience and innovative solutions.
+        </p>
+        <div className="socials">
+          <FaFacebookF />
+          <FaTwitter />
+          <FaInstagram />
         </div>
-      </footer>
-    </>
-  );
-};
+      </div>
+      <div className="footer-section services">
+        <h4>Our Services</h4>
+        <ul>
+          <li><Link to="/departments">Departments</Link></li>
+          <li><Link to="/appointment">Book Appointment</Link></li>
+          <li><Link to="/about">About Us</Link></li>
+        </ul>
+      </div>
+      <div className="footer-section contact">
+        <h4>Contact Us</h4>
+        <p><FaPhone /> +91 9560789815</p>
+        <p><MdEmail /> smartcare@gmail.com</p>
+        <p><FaMapMarkerAlt /> Lucknow, India</p>
+      </div>
+    </div>
+    <div className="footer-bottom">
+      <p>&copy; 2024 Smart Healthcare System. All rights reserved.</p>
+    </div>
+  </footer>
+);
 
 export default Footer;
