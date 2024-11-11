@@ -19,9 +19,12 @@ app.use(cookieParser())
 
 //import routes
 import userRouter from "./routes/user.routes.js"
+import healthcheckRouter from "./routes/healthcheck.routes.js"
+
 
 //routes declaration
 app.use("/api/v1/user", userRouter)
+app.use("/api/v1/healthcheck", healthcheckRouter)
 
 //middleware for sending error as json response
 app.use((err, req, res, next) => {
