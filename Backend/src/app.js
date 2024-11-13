@@ -1,5 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import { ApiError } from "./utils/ApiError.js";
 
 
 const app = express();
@@ -19,11 +21,13 @@ app.use(cookieParser())
 
 //import routes
 import userRouter from "./routes/user.routes.js"
+import patientRouter from "./routes/patient.routes.js"
 import healthcheckRouter from "./routes/healthcheck.routes.js"
 
 
 //routes declaration
 app.use("/api/v1/user", userRouter)
+app.use("/api/v1/patient", patientRouter)
 app.use("/api/v1/healthcheck", healthcheckRouter)
 
 //middleware for sending error as json response

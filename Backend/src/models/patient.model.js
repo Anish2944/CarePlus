@@ -2,13 +2,16 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 const patientSchema = new Schema({
+    profileImage: {
+        type: String,
+    },
     date_of_birth: {
         type: Date,
         required: true
     },
     gender: { 
         type: String,
-        enum: ['male', 'female', 'other'],
+        enum: ['Male', 'Female', 'Other'],
         required: true
     },
     address: { 
@@ -16,14 +19,12 @@ const patientSchema = new Schema({
     },
     blood_group: { 
         type: String,
+        required: true
     },
-    medical_history: { 
-        type: String 
+    About: { 
+        type: String
     },
     emergency_contact: { 
-        type: String 
-    },
-    insurance_details: { 
         type: String 
     },
     user_id: { 
