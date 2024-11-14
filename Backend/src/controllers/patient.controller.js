@@ -84,22 +84,22 @@ const updatePatientProfile = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, patient, "Patient profile updated successfully"));
 });
 
-const deletePatientProfile = asyncHandler(async (req, res) => {
-    const { patientId } = req.params;
-    if (!patientId) {
-        throw new ApiError(400, "Patient not found")
-    }
-    const patient = await Patient.findByIdAndDelete(patientId).populate({
-        path: 'user_id',
-        select: '-password -refreshToken'
-    })
+// const deletePatientProfile = asyncHandler(async (req, res) => {
+//     const { patientId } = req.params;
+//     if (!patientId) {
+//         throw new ApiError(400, "Patient not found")
+//     }
+//     const patient = await Patient.findByIdAndDelete(patientId).populate({
+//         path: 'user_id',
+//         select: '-password -refreshToken'
+//     })
 
-    if (!patient) {
-        throw new ApiError(404, "Patient profile not deleted");
-    }
+//     if (!patient) {
+//         throw new ApiError(404, "Patient profile not deleted");
+//     }
 
-    return res.status(200).json(new ApiResponse(200, patient, "Patient profile deleted successfully"));
-});
+//     return res.status(200).json(new ApiResponse(200, patient, "Patient profile deleted successfully"));
+// });
 
 const updateProfileImage = asyncHandler(async (req, res) => {
     const ImageLocalpath = req.file?.path;
@@ -132,6 +132,5 @@ export {
     createPatientProfile,
     getPatientById,
     updatePatientProfile,
-    deletePatientProfile,
     updateProfileImage
 }

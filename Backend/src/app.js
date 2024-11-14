@@ -23,6 +23,7 @@ app.use(cookieParser())
 import userRouter from "./routes/user.routes.js"
 import patientRouter from "./routes/patient.routes.js"
 import doctorRouter from "./routes/doctor.routes.js"
+import appointmentRouter from "./routes/appointment.routes.js"
 import healthcheckRouter from "./routes/healthcheck.routes.js"
 
 
@@ -30,6 +31,7 @@ import healthcheckRouter from "./routes/healthcheck.routes.js"
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/patient", patientRouter)
 app.use("/api/v1/doctor", doctorRouter)
+app.use("/api/v1/appointment", appointmentRouter)
 app.use("/api/v1/healthcheck", healthcheckRouter)
 
 //middleware for sending error as json response

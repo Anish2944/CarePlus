@@ -98,19 +98,30 @@ const toggleDoctorStatus = asyncHandler(async (req, res) => {
 
 const updateAvailableTimeSlots = asyncHandler(async (req, res) => {
     const { available_time_slots } = req.body;
-    if(!Array.isArray(available_time_slots) || available_time_slots.some(slot => !slot.day || !Array.isArray(slot.times) || slot.times.some(time => typeof time !== 'string'))) {
-        throw new ApiError(400, "Each time slot entry must include a day and an array of time strings");
+    
+    // Validate the structure of available_time_slots based on the new schema
+    if (
+        !Array.isArray(available_time_slots) || 
+        available_time_slots.some(slot => 
+            !slot.day || 
+            !Array.isArray(slot.times) || 
+            slot.times.some(time => 
+                typeof time.time !== 'string' || 
+                (time.status && typeof time.status !== 'string')
+            )
+        )
+    ) {
+        throw new ApiError(400, "Each entry must include a day and an array of times with both 'time' and 'status' fields");
     }
 
     const { doctorId } = req.params;
     if (!doctorId) {
-        throw new ApiError(400, "Doctor not found")
+        throw new ApiError(400, "Doctor ID is required");
     }
+
     const doctor = await Doctor.findOneAndUpdate(
         { _id: doctorId },
-        {
-            available_time_slots
-        },
+        { available_time_slots }, // Update with the new structure
         { new: true }
     ).populate({
         path: 'user_id',
@@ -120,8 +131,10 @@ const updateAvailableTimeSlots = asyncHandler(async (req, res) => {
     if (!doctor) {
         throw new ApiError(404, "Doctor profile not found");
     }
+
     return res.status(200).json(new ApiResponse(200, doctor, "Available time slots updated successfully"));
 });
+
 
 const updateProfileImage = asyncHandler(async (req, res) => {
     const ImageLocalpath = req.file?.path;
@@ -146,6 +159,50 @@ const updateProfileImage = asyncHandler(async (req, res) => {
     await doctorProfile.save();
 
     return res.status(200).json(new ApiResponse(200, doctorProfile, "Profile image updated successfully"));
+});
+
+const getDoctorsBySpecialization = asyncHandler(async (req, res) => {
+    const { specialization } = req.query;
+
+    if (!specialization) {
+        throw new ApiError(400, "Specialization is required");
+    }
+
+    const doctors = await Doctor.find({
+        specialization,
+        status: "active" // Only return active doctors
+    }).populate({
+        path: 'user_id',
+        select: '-password -refreshToken'
+    }); // Select relevant fields to display
+
+    if (!doctors || doctors.length === 0) {
+        throw new ApiError(404, "No doctors found for this specialization");
+    }
+
+    return res.status(200).json(new ApiResponse(200, doctors, "Doctors retrieved successfully"));
+});
+
+const getAvailableSlotsForDoctor = asyncHandler(async (req, res) => {
+    const { doctorId } = req.params;
+
+    if (!doctorId) {
+        throw new ApiError(400, "Doctor ID is required");
+    }
+
+    const doctor = await Doctor.findById(doctorId).select("available_time_slots");
+
+    if (!doctor) {
+        throw new ApiError(404, "Doctor not found");
+    }
+
+    // Filter out only available time slots
+    const availableSlots = doctor.available_time_slots.map(slot => ({
+        day: slot.day,
+        times: slot.times.filter(time => time.status === "available")
+    })).filter(slot => slot.times.length > 0); // Exclude days with no available times
+
+    return res.status(200).json(new ApiResponse(200, availableSlots, "Available slots retrieved successfully"));
 });
 
 const getDoctors = asyncHandler(async (req, res) => {
@@ -227,5 +284,7 @@ export {
     toggleDoctorStatus,
     updateAvailableTimeSlots,
     getDoctors,
-    updateProfileImage
+    updateProfileImage,
+    getDoctorsBySpecialization,
+    getAvailableSlotsForDoctor
 }

@@ -16,14 +16,18 @@ const appointmentSchema = new Schema({
         type: Date, 
         required: true 
     },
-    time: { 
-        type: String 
+    timeSlot: { 
+        type: String,
+        required: true
     },
     reason: { 
-        type: String 
+        type: String,
+        required: true
     },
     status: { 
-        type: String 
+        type: String,
+        enum: ['scheduled', 'cancelled', 'completed'],
+        default: 'scheduled'
     }
 }, { timestamps: true });
 

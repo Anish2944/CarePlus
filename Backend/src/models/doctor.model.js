@@ -36,7 +36,10 @@ const doctorSchema = new Schema({
     available_time_slots: {
         type: [{
             day: { type: String, required: true },
-            times: [{ type: String, required: true }]
+            times: [{
+                time: { type: String, required: true },
+                status: { type: String, default: "available", enum: ["available", "booked"] } // Track status of each slot
+            }]
         }]
     }
 }, { timestamps: true });
