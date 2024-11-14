@@ -206,7 +206,7 @@ const getAvailableSlotsForDoctor = asyncHandler(async (req, res) => {
 });
 
 const getDoctors = asyncHandler(async (req, res) => {
-    const {specialization, experience, status, available_time_slots, name} = req.query;
+    const {specialization, experience, available_time_slots, name} = req.query;
 
     const pipeline = [
         {

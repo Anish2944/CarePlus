@@ -12,7 +12,7 @@ const appointmentSchema = new Schema({
         ref: 'Doctor', 
         required: true 
     },
-    appointment_date: { 
+    appointmentDate: { 
         type: Date, 
         required: true 
     },
