@@ -10,6 +10,8 @@ const createPatientProfile = asyncHandler(async (req, res) => {
     if (!date_of_birth || !gender || !blood_group) {
         throw new ApiError(400, "All * marked fields are required");
     }
+    const profileImageLocalPath = req.file?.path;
+    const profileImage = profileImageLocalPath ? await uploadOnCloudinary(profileImageLocalPath) : null;
 
     const existingProfile = await Patient.findOne({ user_id: req.user._id });
     if (existingProfile) {
@@ -17,6 +19,7 @@ const createPatientProfile = asyncHandler(async (req, res) => {
     }
 
     const patient = await Patient.create({
+        profileImage: profileImage.url || "",
         date_of_birth,
         gender,
         address,

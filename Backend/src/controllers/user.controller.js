@@ -4,7 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
 
 const registerUser = asyncHandler(async (req,res) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, phoneNumber } = req.body;
     if ([name, email, password, role].some((field) => field?.trim() === "")) {
         throw new ApiError(400, "All fields are required")
     }
@@ -18,7 +18,8 @@ const registerUser = asyncHandler(async (req,res) => {
         name, 
         email, 
         password, 
-        role,  
+        role,
+        phoneNumber  
     });
 
     const createdUser = await User.findById(user._id).select("-password -refreshToken");
@@ -120,7 +121,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const accessRefreshToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
-    console.log(incomingRefreshToken);
+    
     if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized request");
     }
@@ -165,10 +166,52 @@ const accessRefreshToken = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { accessToken, refreshToken }, "Access token refreshed"));
 });
 
+const updateAccountDetails = asyncHandler(async (req, res) => {
+    const { name, email, phoneNumber } = req.body;
+
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+        throw new ApiError(400, "User not found");
+    }
+
+    user.name = name;
+    user.email = email;
+    user.phoneNumber = phoneNumber;
+
+    await user.save();
+
+    return res.status(200).json(new ApiResponse(200, user, "Account details updated successfully"));
+});
+
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    if (!(newPassword === confirmPassword)) {
+        throw new ApiError(400, "Passwords do not match");
+    }
+
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+        throw new ApiError(400, "User not found");
+    }
+
+    const isPasswordValid = await user.isPasswordCorrect(oldPassword);
+    if (!isPasswordValid) {
+        throw new ApiError(400, "Invalid old password");
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json(new ApiResponse(200, {}, "Password changed successfully"));
+});
+
 export { 
     registerUser, 
     loginUser,
     logout,
     getCurrentUser,
-    accessRefreshToken
+    accessRefreshToken,
+    updateAccountDetails,
+    changeCurrentPassword
 }

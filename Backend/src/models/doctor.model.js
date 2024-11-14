@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const doctorSchema = new Schema({
     user_id: { 
@@ -7,7 +8,12 @@ const doctorSchema = new Schema({
         ref: 'User', 
         required: true 
     },
-    profile_pic: { 
+    status: {
+        type: String,
+        default: 'active',
+        enum: ['active', 'inactive']
+    },
+    profileImage: { 
         type: String 
     },
     specialization: { 
@@ -15,20 +21,26 @@ const doctorSchema = new Schema({
         required: true 
     },
     fees: { 
-        type: Number 
+        type: Number, 
+        default: 0,
+        required: true
     },
     qualification: { 
-        type: String 
+        type: String,
+        required: true
     },
-    years_of_experience: { 
-        type: Number 
+    experience: { 
+        type: Number,
+        required: true 
     },
     available_time_slots: {
         type: [{
-            day: { type: String },
-            time: { type: String }
+            day: { type: String, required: true },
+            times: [{ type: String, required: true }]
         }]
     }
 }, { timestamps: true });
+
+doctorSchema.plugin(mongooseAggregatePaginate)
 
 export const Doctor = mongoose.model('Doctor', doctorSchema);

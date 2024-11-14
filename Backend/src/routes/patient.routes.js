@@ -12,4 +12,5 @@ router.route("/get-profile/:patientId").get(getPatientById);
 router.route("/update-profile").patch(updatePatientProfile);
 router.route("/delete-profile/:patientId").delete(deletePatientProfile);
 router.route("/update-profile-image").patch(upload.single("profileImage"), updateProfileImage);
+
 export default router;
