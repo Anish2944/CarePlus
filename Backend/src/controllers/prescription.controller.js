@@ -38,7 +38,13 @@ const getPrescriptionById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Prescription ID not found")
     }    
 
-    const prescription = await Prescription.findById(prescriptionId);    
+    const prescription = await Prescription.findById(prescriptionId).populate("patientId").populate({
+        path: "doctorId",
+        populate: {
+            path: "user_id",
+            select: "-password -refreshToken"
+        }
+    });    
 
     if (!prescription) {
         throw new ApiError(404, "Prescription not found")
@@ -54,7 +60,13 @@ const getPrescriptionsForPatient = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Patient ID not found")
     }
 
-    const prescriptions = await Prescription.find({ patientId });
+    const prescriptions = await Prescription.find({ patientId }).populate({
+        path: "doctorId",
+        populate: {
+            path: "user_id",
+            select: "-password -refreshToken"
+        }
+    });
 
     if (!prescriptions) {
         throw new ApiError(404, "Prescriptions not found")

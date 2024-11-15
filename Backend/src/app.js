@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
 
-
 const app = express();
 
 app.use(cors({
@@ -24,6 +23,8 @@ import userRouter from "./routes/user.routes.js"
 import patientRouter from "./routes/patient.routes.js"
 import doctorRouter from "./routes/doctor.routes.js"
 import appointmentRouter from "./routes/appointment.routes.js"
+import prescriptionRouter from "./routes/prescription.routes.js"
+import medicalRecordsRouter from "./routes/medicalRecords.routes.js"
 import healthcheckRouter from "./routes/healthcheck.routes.js"
 
 
@@ -32,6 +33,8 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/patient", patientRouter)
 app.use("/api/v1/doctor", doctorRouter)
 app.use("/api/v1/appointment", appointmentRouter)
+app.use("/api/v1/prescription", prescriptionRouter)
+app.use("/api/v1/medicalRecords", medicalRecordsRouter)
 app.use("/api/v1/healthcheck", healthcheckRouter)
 
 //middleware for sending error as json response

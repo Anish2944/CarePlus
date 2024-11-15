@@ -12,12 +12,12 @@ const notificationSchema = new Schema({
         required: true 
     },
     type: { 
-        type: String 
-    },
-    status: { 
         type: String,
-        default: 'unread',
-        enum: ['unread', 'read']
+        required: true,
+    },
+    isRead: { 
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 
