@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMedicalRecord, getMedicalRecordById, updateMedicalRecord, deleteMedicalRecord, getMedicalRecordsForPateint } from "../controllers/medicalRecords.controller.js";
+import { createMedicalRecord, getMedicalRecordById, updateMedicalRecord, deleteMedicalRecord, getMedicalRecordsForPateint } from "../controllers/medicalRecord.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 
 const router = Router();
