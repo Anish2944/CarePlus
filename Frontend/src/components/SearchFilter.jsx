@@ -1,21 +1,33 @@
-// src/components/SearchFilter.js
 import React from "react";
 
 const SearchFilter = ({ searchTerm, setSearchTerm, filterType, setFilterType }) => {
+  const specialties = ["Cardiology", "Neurology", "Diabetes", "Hypertension"];
+
   return (
     <div className="search-filter">
+      {/* Search Input */}
       <input
         type="text"
         placeholder="Search by name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        aria-label="Search by name"
+        className="search-input"
       />
-      <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-        <option value="">All</option>
-        <option value="Cardiology">Cardiology</option>
-        <option value="Neurology">Neurology</option>
-        <option value="Diabetes">Diabetes</option>
-        <option value="Hypertension">Hypertension</option>
+
+      {/* Dropdown Filter */}
+      <select
+        value={filterType}
+        onChange={(e) => setFilterType(e.target.value)}
+        aria-label="Filter by specialty"
+        className="filter-select"
+      >
+        <option value="">All Specialties</option>
+        {specialties.map((specialty) => (
+          <option key={specialty} value={specialty}>
+            {specialty}
+          </option>
+        ))}
       </select>
     </div>
   );

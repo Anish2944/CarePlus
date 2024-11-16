@@ -11,39 +11,70 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Profile from "./pages/Profile";
-
+import { backendURL } from "./constant";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Context } from "./main";
 const App = () => {
 
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-
-
   const { isAuthenticated, setIsAuthenticated, setUser } =
     useContext(Context);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      console.log("Fetching data from app......")
-      try {
-        const response = await axios.get(
-          `${backendURL}/api/v1/user/current-user`,
-          {
-            withCredentials: true,
+    useEffect(() => {
+      const fetchUser = async () => {
+        console.log("Fetching data from app...");
+    
+        try {
+          // Retrieve accessToken from localStorage
+          const accessToken = localStorage.getItem("accessToken");
+    
+          if (!accessToken) {
+            throw new Error("Access token not found");
           }
-        );
-        console.log("Response",response);
-        setIsAuthenticated(true);
-        setUser(response.data.data.user);
-      } catch (error) {
-        setIsAuthenticated(false);
-        setUser({});
-      }
-    };
-    fetchUser();
-  }, [isAuthenticated]);
+    
+          // Set accessToken in document.cookie if it's missing
+          const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
+            const [name, value] = cookie.split("=");
+            acc[name] = value;
+            return acc;
+          }, {});
+    
+          if (!cookies["accessToken"]) {
+            document.cookie = `accessToken=${accessToken}; path=/;`;
+          }
+    
+          // Make API request with accessToken
+          const response = await axios.get(`${backendURL}/api/v1/user/current-user`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true, // Ensures cookies are sent
+          });
+    
+          console.log("Response", response);
+          setIsAuthenticated(true);
+          setUser(response.data.data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+    
+          // Check if the error is due to an expired token
+          if (error.response && error.response.status === 401) {
+            console.warn("Token expired. Removing accessToken...");
+            
+            // Remove token from localStorage and document.cookie
+            localStorage.removeItem("accessToken");
+            document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    
+            setIsAuthenticated(false);
+            setUser({});
+          }
+        }
+      };
+    
+      fetchUser();
+    }, []);
+    
 
   return (
     <>
