@@ -1,10 +1,8 @@
-import axios from "axios";
+import apiClient from "../axios";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
-
-const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const Login = () => {
   const { isAuthenticated, setIsAuthenticated, setUser, } = useContext(Context);
@@ -18,23 +16,20 @@ const Login = () => {
     e.preventDefault();
   
     try {
-      const response = await axios.post(
-        `${backendURL}/api/v1/user/login`,
-        { email, password },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("Response received:", response);
+      const response = await apiClient.post("/api/v1/user/login", {
+        email,
+        password,
+      });
   
-      toast.success(response.data.message);
-      setIsAuthenticated(true);
-      localStorage.setItem("accessToken", response.data.data.accessToken)
-      setUser(response.data.data.user)
-      navigate("/dashboard");
-      setEmail("");
-      setPassword("");
+      if (response.status === 200) {
+        const accessToken = response.data.data.accessToken;
+        localStorage.setItem("accessToken", accessToken);
+        setIsAuthenticated(true);
+        // console.log(response.data);
+        setUser(response.data.data.user);
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Error occurred:", error);
       const errorMessage = error.response?.data?.message || "An error occurred";

@@ -11,69 +11,39 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Profile from "./pages/Profile";
-import { backendURL } from "./constant";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import apiClient from "./axios";
 import { Context } from "./main";
 const App = () => {
 
-  const { isAuthenticated, setIsAuthenticated, setUser } =
+  const { setIsAuthenticated, setUser, user } =
     useContext(Context);
+    // console.log("USER: ",user);
 
     useEffect(() => {
-      const fetchUser = async () => {
-        console.log("Fetching data from app...");
-    
-        try {
-          // Retrieve accessToken from localStorage
-          const accessToken = localStorage.getItem("accessToken");
-    
-          if (!accessToken) {
-            throw new Error("Access token not found");
-          }
-    
-          // Set accessToken in document.cookie if it's missing
-          const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
-            const [name, value] = cookie.split("=");
-            acc[name] = value;
-            return acc;
-          }, {});
-    
-          if (!cookies["accessToken"]) {
-            document.cookie = `accessToken=${accessToken}; path=/;`;
-          }
-    
-          // Make API request with accessToken
-          const response = await axios.get(`${backendURL}/api/v1/user/current-user`, {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        apiClient
+          .get("/api/v1/user/current-user", {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-            withCredentials: true, // Ensures cookies are sent
+          })
+          .then((response) => {
+            // console.log(response.data);
+            setIsAuthenticated(true);
+            setUser(response.data.data);
+          })
+          .catch((error) => {
+            console.log(error);
           });
-    
-          console.log("Response", response);
-          setIsAuthenticated(true);
-          setUser(response.data.data);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-    
-          // Check if the error is due to an expired token
-          if (error.response && error.response.status === 401) {
-            console.warn("Token expired. Removing accessToken...");
-            
-            // Remove token from localStorage and document.cookie
-            localStorage.removeItem("accessToken");
-            document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    
-            setIsAuthenticated(false);
-            setUser({});
-          }
-        }
-      };
-    
-      fetchUser();
-    }, []);
+      } else {
+        setIsAuthenticated(false);
+        setUser(null);
+      }
+    }, [setIsAuthenticated, setUser]);
     
 
   return (
@@ -89,8 +59,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/profile/patient" element={<Profile userType="patient" />} />
-          <Route path="/profile/doctor" element={<Profile userType="doctor" />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         </div>
         

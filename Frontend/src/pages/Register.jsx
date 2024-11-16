@@ -1,11 +1,9 @@
-import axios from "axios";
+import apiClient from "../axios";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL;
-console.log(backendURL);
 
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated, setUser} = useContext(Context);
@@ -18,35 +16,30 @@ const Register = () => {
 
   const navigateTo = useNavigate();
 
-  const handleRegistration = async (e) => {
-    e.preventDefault();
-    try {
-      await axios
-        .post(
-          `${backendURL}/api/v1/user/register`,
-          { name, email, phoneNumber, role, password },
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((response) => {
-          toast.success(response.data.message);
-          console.log(response);
-          localStorage.setItem("accessToken", response.data.data.accessToken)
-          setUser(response.data.data.user)
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setName("");
-          setEmail("");
-          setPhoneNumber("");
-          setRole("");
-          setPassword("");
-        });
-    } catch (error) {
-      toast.error(error.response.data.message);
+const handleRegistration = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await apiClient.post("/api/v1/user/register", {
+      name,
+      email,
+      phoneNumber,
+      role,
+      password,  
+    });
+    if (response.status === 200) {
+      const accessToken = response.data.data.accessToken;
+      localStorage.setItem("accessToken", accessToken);
+      setIsAuthenticated(true);
+      setUser(response.data.data.user);
+      toast.success("Registration successful");
+      navigateTo("/login");
     }
-  };
+  } catch (error) {
+    console.error("Error occurred:", error);
+    const errorMessage = error.response?.data?.message || "An error occurred";
+    toast.error(`Registration Error: ${errorMessage}`);
+  }
+}
 
   if (isAuthenticated) {
     return <Navigate to={"/"} />;

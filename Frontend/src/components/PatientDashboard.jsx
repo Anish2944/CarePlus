@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { backendURL } from "../constant";
+import apiClient from "../axios";
 
 const PatientDashboard = ({ user }) => {
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [patient, setPatient] = useState({});
-  console.log("user: ",user._id)
 
   // Calculate age from date of birth
   const calculateAge = (dob) => {
@@ -27,26 +25,24 @@ const PatientDashboard = ({ user }) => {
     const fetchData = async () => {
         try {
             // Fetch patient profile first
-            const patientResponse = await axios.get(
-              `${backendURL}/api/v1/patient/profile/${user._id}`, { withCredentials: true }
-            );
-            const patient = patientResponse.data;
+            const patientResponse = await apiClient.get(`/api/v1/patient/profile`);
+            const patient = patientResponse.data.data;
+            console.log("Patient:", patient);
             setPatient(patient)
           
             // Fetch medical records and appointments concurrently
-            const [medicalRecordsResponse, appointmentsResponse] = await Promise.all([
-              axios.get(`${backendURL}/api/v1/patient/all-records/${patient._id}`, { withCredentials: true }),
-              axios.get(`${backendURL}/api/v1/patient/${patient._id}/appointments`, { withCredentials: true }),
-            ]);
+            // const [medicalRecordsResponse, appointmentsResponse] = await Promise.all([
+            //   apiClient.get(`/api/v1/patient/medical-records/${user._id}`),
+            //   apiClient.get(`/api/v1/patient/appointments/${user._id}`),
+            // ]);
           
-            const medicalRecords = medicalRecordsResponse.data.records;
-            const appointments = appointmentsResponse.data.appointments;
-            setAppointments(appointments)
-            setMedicalRecords(medicalRecords)
+            // const medicalRecords = medicalRecordsResponse.data.records;
+            // const appointments = appointmentsResponse.data.appointments;
+            // setAppointments(appointments)
+            // setMedicalRecords(medicalRecords)
             // Use patient, medicalRecords, and appointments in your logic
-            console.log("Patient:", patient);
-            console.log("Medical Records:", medicalRecords);
-            console.log("Appointments:", appointments);
+            // console.log("Medical Records:", medicalRecords);
+            // console.log("Appointments:", appointments);
           } catch (error) {
             console.error("Error fetching data:", error.response?.data || error.message);
           }
@@ -71,7 +67,7 @@ const PatientDashboard = ({ user }) => {
       </div>
 
       {/* Appointments Section */}
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      {/* <div className="bg-white shadow-md rounded-lg p-6 mb-6">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Your Appointments</h2>
         {appointments.length > 0 ? (
           <ul className="space-y-4">
@@ -99,10 +95,10 @@ const PatientDashboard = ({ user }) => {
         <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
           Get Appointment
         </button>
-      </div>
+      </div> */}
 
       {/* Medical Records Section */}
-      <div className="bg-white shadow-md rounded-lg p-6">
+      {/* <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Your Medical Records</h2>
         {medicalRecords.length > 0 ? (
           <ul className="space-y-4">
@@ -127,7 +123,7 @@ const PatientDashboard = ({ user }) => {
         ) : (
           <p className="text-gray-600">No medical records found.</p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

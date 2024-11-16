@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
+import apiClient from "../axios";
 
 const PatientProfile = ({ patient }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(patient);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  console.log("Patient Data:", patient);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,10 +15,7 @@ const PatientProfile = ({ patient }) => {
   const handleSave = async () => {
     setLoading(true);
     try {
-      await axios.put("/api/patient/profile", formData, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
+      await apiClient.patch("/api/v1/patient/update", formData);
       setIsEditing(false);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update profile. Please try again.");
