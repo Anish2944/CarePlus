@@ -6,10 +6,10 @@ const router = Router();
 
 router.use(verifyJWT);
 
-router.route("/create-medical-record/:patientId/:doctorId").post(createMedicalRecord);
-router.route("/get-medical-record/:medicalRecordId").get(getMedicalRecordById);
-router.route("/get-patient-records/:patientId").get(getMedicalRecordsForPateint);
-router.route("/update-medical-record/:medicalRecordId").patch(updateMedicalRecord);
-router.route("/delete-medical-record/:medicalRecordId").delete(deleteMedicalRecord);
+router.route("/create/:patientId/:doctorId").post(createMedicalRecord);
+router.route("/:medicalRecordId").get(getMedicalRecordById);
+router.route("/all-records/:patientId").get(getMedicalRecordsForPateint);
+router.route("/update/:medicalRecordId").patch(updateMedicalRecord);
+router.route("/delete/:medicalRecordId").delete(deleteMedicalRecord);
 
 export default router;

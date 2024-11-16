@@ -6,14 +6,14 @@ const router = Router();
 
 router.use(verifyJWT);
 
-router.route("/create-appointment").post(createAppointment);
+router.route("/").post(createAppointment);
 
-router.route("/get-appointment/:appointmentId").get(getAppointmentById);
-router.route("/get-all-appointments-for-patient").get(getAllAppointmentsForPatient);
-router.route("/get-all-appointments-for-doctor").get(getAllAppointmentsForDoctor);
+router.route("/:appointmentId").get(getAppointmentById);
+router.route("/:pateintId/appointments").get(getAllAppointmentsForPatient);
+router.route("/:doctorId/appointments").get(getAllAppointmentsForDoctor);
 
-router.route("/cancel-appointment/:appointmentId").patch(cancelAppointment);
-router.route("/update-appointment-status/:appointmentId").patch(updateAppointmentStatus);
+router.route("/cancel/:appointmentId").patch(cancelAppointment);
+router.route("/update/:appointmentId").patch(updateAppointmentStatus);
 
 
 export default router

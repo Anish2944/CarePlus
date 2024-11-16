@@ -8,6 +8,6 @@ router.use(verifyJWT);
 
 router.route("/create-feedback").post(createFeedback);
 router.route("/get-feedback/:appointmentId").get(getFeedbackByAppointmentId);
-router.route("/get-feedbacks-for-doctor").get(getFeedbacksForDoctor);
+router.route("/feedbacks-doctor").get(getFeedbacksForDoctor);
 
 export default router

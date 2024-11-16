@@ -23,7 +23,7 @@ const createFeedback = asyncHandler(async (req, res) => {
     return res.status(201).json(new ApiResponse(201, feedback, "Feedback created successfully"));
 });
 
-const getFeedbackForDoctor = asyncHandler(async (req, res) => {
+const getFeedbacksForDoctor = asyncHandler(async (req, res) => {
 
     const userId = req.user._id;
     
@@ -38,7 +38,7 @@ const getFeedbackForDoctor = asyncHandler(async (req, res) => {
     }
 
     return res.status(200).json(new ApiResponse(200, feedback, "Feedback fetched successfully"));
-});
+});  
 
 const getFeedbackByAppointmentId = asyncHandler(async (req, res) => {    
     const { appointmentId } = req.params;
@@ -59,4 +59,4 @@ const getFeedbackByAppointmentId = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, feedback, "Feedback fetched successfully"));
 });
 
-export { createFeedback, getFeedbackForDoctor, getFeedbackByAppointmentId };
+export { createFeedback, getFeedbacksForDoctor, getFeedbackByAppointmentId };
