@@ -59,21 +59,53 @@
 // export default Dashboard;
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../main";
+import SearchFilter from "./SearchFilter";
+import DoctorDashboard from "./DoctorDashboard";
+import PatientDashboard from "./PatientDashboard";
 
 const Dashboard = () => {
-  // Assuming `user` contains role information
-  const { user } = useContext(Context)
-  const { role } = user; // role can be 'doctor' or 'patient'
+  const { user } = useContext(Context);
+  const { role, name, date_of_birth, profile_pic } = user; // Assuming these fields exist in the `user` object
+
+  // Function to calculate age from date of birth
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Age calculation (if date_of_birth exists)
+  const age = date_of_birth ? calculateAge(date_of_birth) : "N/A";
 
   return (
     <div className="dashboard">
-      <h1>Welcome, {role === "doctor" ? "Doctor" : "Patient"}</h1>
-      
+      <div className="profile-section">
+        {/* Profile Image */}
+        <img
+          src={profile_pic || "https://via.placeholder.com/150"} // Placeholder image if profile_pic is unavailable
+          alt={`${name}'s profile`}
+          className="profile-pic"
+          style={{ borderRadius: "50%", width: "100px", height: "100px" }}
+        />
+        
+        {/* User Information */}
+        <div className="user-info">
+          <h2>{name}</h2>
+          <p>Age: {age}</p>
+          <p>Role: {role === "doctor" ? "Doctor" : "Patient"}</p>
+        </div>
+      </div>
+
       {/* Conditional rendering based on role */}
       {role === "doctor" ? (
-        <DoctorDashboard />
+        <DoctorDashboard user={user} />
       ) : role === "patient" ? (
-        <PatientDashboard />
+        <PatientDashboard user={user} />
       ) : (
         <p>Loading...</p>
       )}
@@ -81,38 +113,5 @@ const Dashboard = () => {
   );
 };
 
-const DoctorDashboard = () => (
-  <div>
-    <h2>Doctor's Dashboard</h2>
-    <ul>
-      <li>View Appointments</li>
-      <li>Patient Records</li>
-      <li>AI Consultation Insights</li>
-    </ul>
-    {/* Quick Access Panels */}
-    <div className="quick-access">
-      <h3>Upcoming Appointments</h3>
-      <h3>Unread Notifications</h3>
-    </div>
-  </div>
-);
-
-const PatientDashboard = () => (
-  <div>
-    <h2>Patient's Dashboard</h2>
-    <ul>
-      <li>Book Appointment</li>
-      <li>View Medical Records</li>
-      <li>AI Consultation</li>
-      <li>Notifications</li>
-    </ul>
-    {/* Quick Access Panels */}
-    <div className="quick-access">
-      <h3>Upcoming Appointments</h3>
-      <h3>Recent Prescriptions</h3>
-      <button>Quick AI Consultation</button>
-    </div>
-  </div>
-);
-
 export default Dashboard;
+
