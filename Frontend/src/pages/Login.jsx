@@ -5,10 +5,9 @@ import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
-console.log("Backend URL:", backendURL);
 
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated, setUser, } = useContext(Context);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,8 +15,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    console.log("Login Process.....")
     e.preventDefault();
+  
     try {
       const response = await axios.post(
         `${backendURL}/api/v1/user/login`,
@@ -27,18 +26,22 @@ const Login = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-
+      console.log("Response received:", response);
+  
       toast.success(response.data.message);
       setIsAuthenticated(true);
-      navigate("/");
+      localStorage.setItem("token", response.data.data.accessToken)
+      setUser(response.data.data.user)
+      navigate("/dashboard");
       setEmail("");
       setPassword("");
-      
     } catch (error) {
+      console.error("Error occurred:", error);
       const errorMessage = error.response?.data?.message || "An error occurred";
       toast.error(`Login Error: ${errorMessage}`);
     }
   };
+  
 
   if (isAuthenticated) {
     return <Navigate to="/" />;
