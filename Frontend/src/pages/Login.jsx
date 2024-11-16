@@ -30,7 +30,7 @@ const Login = () => {
   
       toast.success(response.data.message);
       setIsAuthenticated(true);
-      localStorage.setItem("token", response.data.data.accessToken)
+      localStorage.setItem("accessToken", response.data.data.accessToken)
       setUser(response.data.data.user)
       navigate("/dashboard");
       setEmail("");
