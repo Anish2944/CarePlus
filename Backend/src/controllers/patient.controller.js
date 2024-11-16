@@ -41,6 +41,19 @@ const createPatientProfile = asyncHandler(async (req, res) => {
     return res.status(201).json(new ApiResponse(201, createdPatient, "Patient profile created successfully"));
 });
 
+const getPatientByUserId = asyncHandler(async (req, res) => {
+    const patient = await Patient.findOne({ user_id: req.user._id }).populate({
+        path: 'user_id',
+        select: '-password -refreshToken'
+    });
+
+    if (!patient) {
+        throw new ApiError(404, "Patient profile not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, patient, "Patient profile fetched successfully"));
+})
+
 const getPatientById = asyncHandler(async (req, res) => {
     const { patientId } = req.params;
     if (!patientId) {
@@ -132,5 +145,6 @@ export {
     createPatientProfile,
     getPatientById,
     updatePatientProfile,
-    updateProfileImage
+    updateProfileImage,
+    getPatientByUserId
 }
