@@ -1,5 +1,5 @@
 {
-  "name": "smart-healthcare-system",
+  "name": "yes",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -29,5 +29,23 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
     "vite": "^5.4.10"
-  }
+  },
+  "description": "smart healthcare system using node js",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anish2944/CarePlus.git"
+  },
+  "keywords": [
+    "heathcare",
+    "smart",
+    "system",
+    "Node.js"
+  ],
+  "author": "Shubham Yadav",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Anish2944/CarePlus/issues"
+  },
+  "homepage": "https://github.com/Anish2944/CarePlus#readme"
 }
