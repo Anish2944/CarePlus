@@ -161,6 +161,18 @@ const updateProfileImage = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, doctorProfile, "Profile image updated successfully"));
 });
 
+const getDoctorByUserId = asyncHandler(async (req, res) => {
+    const doctor = await Doctor.findOne({ user_id: req.user._id }).populate({
+        path: 'user_id',
+        select: '-password -refreshToken'
+    });
+    if (!doctor) {
+        throw new ApiError(404, "Doctor profile not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, doctor, "Doctor profile fetched successfully"));
+});
+
 const getDoctorsBySpecialization = asyncHandler(async (req, res) => {
     const { specialization } = req.query;
 
@@ -284,6 +296,7 @@ export {
     toggleDoctorStatus,
     updateAvailableTimeSlots,
     getDoctors,
+    getDoctorByUserId,
     updateProfileImage,
     getDoctorsBySpecialization,
     getAvailableSlotsForDoctor
