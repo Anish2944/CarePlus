@@ -9,49 +9,60 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
+import Profile from "./pages/Profile";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import apiClient from "./axios";
 import { Context } from "./main";
 const App = () => {
 
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-
-
-  const { isAuthenticated, setIsAuthenticated, setUser } =
+  const { setIsAuthenticated, setUser, user } =
     useContext(Context);
+    // console.log("USER: ",user);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          `${backendURL}/api/v1/`,
-          {
-            withCredentials: true,
-          }
-        );
-        setIsAuthenticated(true);
-        setUser(response.data.user);
-      } catch (error) {
+    useEffect(() => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        apiClient
+          .get("/api/v1/user/current-user", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response) => {
+            // console.log(response.data);
+            setIsAuthenticated(true);
+            setUser(response.data.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
         setIsAuthenticated(false);
-        setUser({});
+        setUser(null);
       }
-    };
-    fetchUser();
-  }, [isAuthenticated]);
+    }, [setIsAuthenticated, setUser]);
+    
 
   return (
     <>
       <Router>
         <Navbar />
+        <div className="hscreen">
         <Routes>
+          {/* <div className="App"><Dashboard /></div> */}
           <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
+        </div>
+        
         <Footer />
         <ToastContainer position="top-center" />
       </Router>

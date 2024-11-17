@@ -12,18 +12,22 @@ const appointmentSchema = new Schema({
         ref: 'Doctor', 
         required: true 
     },
-    appointment_date: { 
+    appointmentDate: { 
         type: Date, 
         required: true 
     },
-    time: { 
-        type: String 
+    timeSlot: { 
+        type: String,
+        required: true
     },
     reason: { 
-        type: String 
+        type: String,
+        required: true
     },
     status: { 
-        type: String 
+        type: String,
+        enum: ['scheduled', 'cancelled', 'completed'],
+        default: 'scheduled'
     }
 }, { timestamps: true });
 

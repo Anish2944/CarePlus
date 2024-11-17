@@ -7,11 +7,6 @@ const prescriptionSchema = new Schema({
         ref: 'Patient', 
         required: true 
     },
-    prescription_date: { 
-        type: Date, 
-        default: Date.now,
-        required: true
-    },
     medication: { 
         type: String, 
         required: true 

@@ -20,7 +20,7 @@ const Footer = () => (
       <div className="footer-section services">
         <h4>Our Services</h4>
         <ul>
-          <li><Link to="/departments">Departments</Link></li>
+          <li><Link to="./departments">Departments</Link></li>
           <li><Link to="/appointment">Book Appointment</Link></li>
           <li><Link to="/about">About Us</Link></li>
         </ul>

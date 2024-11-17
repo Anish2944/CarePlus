@@ -7,26 +7,27 @@ const medicalRecordSchema = new Schema({
         ref: 'Patient', 
         required: true 
     },
-    record_date: { 
-        type: Date, 
-        default: Date.now 
-    },
     diagnosis: { 
-        type: String 
+        type: String,
+        required: true 
     },
     treatment: { 
-        type: String 
+        type: String,
+        required: true
     },
     notes: { 
-        type: String 
+        type: String,
+        required: true 
     },
-    prescription: { 
+    prescriptionId: { 
         type: Schema.Types.ObjectId, 
-        ref: 'Prescription' 
+        ref: 'Prescription',
+        required: true
     },
     doctorId: { 
         type: Schema.Types.ObjectId, 
-        ref: 'Doctor' 
+        ref: 'Doctor',
+        required: true 
     }
 }, { timestamps: true });
 

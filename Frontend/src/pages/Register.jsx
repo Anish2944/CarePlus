@@ -1,55 +1,45 @@
-import axios from "axios";
+import apiClient from "../axios";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL;
-console.log(backendURL);
 
 const Register = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated, setUser} = useContext(Context);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [nic, setNic] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
 
   const navigateTo = useNavigate();
 
-  const handleRegistration = async (e) => {
-    e.preventDefault();
-    try {
-      await axios
-        .post(
-          `${backendURL}/api/v1/user/register`,
-          { firstName, lastName, email, phone, nic, dob, gender, password },
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setFirstName("");
-          setLastName("");
-          setEmail("");
-          setPhone("");
-          setNic("");
-          setDob("");
-          setGender("");
-          setPassword("");
-        });
-    } catch (error) {
-      toast.error(error.response.data.message);
+const handleRegistration = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await apiClient.post("/api/v1/user/register", {
+      name,
+      email,
+      phoneNumber,
+      role,
+      password,  
+    });
+    if (response.status === 200) {
+      const accessToken = response.data.data.accessToken;
+      localStorage.setItem("accessToken", accessToken);
+      setIsAuthenticated(true);
+      setUser(response.data.data.user);
+      toast.success("Registration successful");
+      navigateTo("/login");
     }
-  };
+  } catch (error) {
+    console.error("Error occurred:", error);
+    const errorMessage = error.response?.data?.message || "An error occurred";
+    toast.error(`Registration Error: ${errorMessage}`);
+  }
+}
 
   if (isAuthenticated) {
     return <Navigate to={"/"} />;
@@ -67,15 +57,9 @@ const Register = () => {
           <div>
             <input
               type="text"
-              placeholder="First Name"
-              value={firstName}
+              placeholder="Name"
+              value={name}
               onChange={(e) => setFirstName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
           <div>
@@ -88,30 +72,17 @@ const Register = () => {
             <input
               type="number"
               placeholder="Mobile Number"
-              value={phone}
+              value={phoneNumber}
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div>
             <input
-              type="number"
-              placeholder="NIC"
-              value={nic}
-              onChange={(e) => setNic(e.target.value)}
+              type="string"
+              placeholder="Role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
             />
-            <input
-              type={"date"}
-              placeholder="Date of Birth"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-            />
-          </div>
-          <div>
-            <select value={gender} onChange={(e) => setGender(e.target.value)}>
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
             <input
               type="password"
               placeholder="Password"

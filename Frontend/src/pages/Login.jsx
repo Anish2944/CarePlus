@@ -1,14 +1,11 @@
-import axios from "axios";
+import apiClient from "../axios";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL;
-console.log("Backend URL:", backendURL);
-
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated, setUser, } = useContext(Context);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,29 +13,30 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    console.log("Login Process.....")
     e.preventDefault();
+  
     try {
-      const response = await axios.post(
-        `${backendURL}/api/v1/user/login`,
-        { email, password },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      toast.success(response.data.message);
-      setIsAuthenticated(true);
-      navigate("/");
-      setEmail("");
-      setPassword("");
-      
+      const response = await apiClient.post("/api/v1/user/login", {
+        email,
+        password,
+      });
+  
+      if (response.status === 200) {
+        const accessToken = response.data.data.accessToken;
+        localStorage.setItem("accessToken", accessToken);
+        setIsAuthenticated(true);
+        // console.log(response.data);
+        setUser(response.data.data.user);
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      }
     } catch (error) {
+      console.error("Error occurred:", error);
       const errorMessage = error.response?.data?.message || "An error occurred";
       toast.error(`Login Error: ${errorMessage}`);
     }
   };
+  
 
   if (isAuthenticated) {
     return <Navigate to="/" />;
