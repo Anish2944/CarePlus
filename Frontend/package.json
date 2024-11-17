@@ -36,30 +36,9 @@
     "tailwindcss": "^3.4.15",
     "vite": "^5.4.10"
   },
-<<<<<<< HEAD
-  "description": "smart healthcare system using node js",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Anish2944/CarePlus.git"
-  },
-  "keywords": [
-    "heathcare",
-    "smart",
-    "system",
-    "Node.js"
-  ],
-  "author": "Shubham Yadav",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Anish2944/CarePlus/issues"
-  },
-  "homepage": "https://github.com/Anish2944/CarePlus#readme"
-=======
   "description": "��#\u0000 \u0000C\u0000a\u0000r\u0000e\u0000P\u0000l\u0000u\u0000s\u0000\r\u0000 \u0000",
   "main": "vite.config.js",
   "keywords": [],
   "author": "",
   "license": "ISC"
->>>>>>> aca9efd442807bbd2e0c63a23321e2b2884e83e8
 }

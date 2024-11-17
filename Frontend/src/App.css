@@ -481,13 +481,8 @@ color:#dedede;
   transform: scale(1.05);
 }
 .department-card img {
-<<<<<<< HEAD
-  width: 600px;
-  height: 400px;
-=======
   width: 450px;
   height: 350px;
->>>>>>> aca9efd442807bbd2e0c63a23321e2b2884e83e8
   border-radius: 8px;
 }
 .department-card h3 {
