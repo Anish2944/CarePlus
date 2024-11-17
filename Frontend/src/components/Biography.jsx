@@ -22,16 +22,22 @@ function Biography () {
              <div className="team-info">
               <p>Jitendra focuses on creating an intuitive and responsive user interface, leveraging his expertise in front-end technologies to ensure a seamless user experience.</p>
               <ul className="team-icon">
-                <li><a href="#" className="Twitter">
-                <i className="fa-fa-twitter"></i>
-                </a></li>
-                <li><a href="#" className="Facebook">
-                <i className="fa-fa-facebook"></i>
-                </a></li>
-                <li><a href="#" className="instagram">
-                <i className="fa-fa-instagram"></i>
-                </a></li>
-              </ul>
+  <li>
+    <a href="#" className="twitter">
+      <i className="fa fa-Twitter"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="facebook">
+      <i className="fa fa-Facebook"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="instagram">
+      <i className="fa fa-Instagram"></i>
+    </a>
+  </li>
+</ul>
              </div>
 
             </div>
@@ -44,16 +50,23 @@ function Biography () {
              <div className="team-info">
               <p>Ansih is responsible for server-side logic, handling data management, and ensuring smooth communication between frontend and backend..</p>
               <ul className="team-icon">
-                <li><a href="#" className="Twitter">
-                <i className="fa-fa-twitter"></i>
-                </a></li>
-                <li><a href="#" className="Facebook">
-                <i className="fa-fa-facebook"></i>
-                </a></li>
-                <li><a href="#" className="instagram"><span>instagram</span>
-                <i className="fa-fa-instagram"></i>
-                </a></li>
-              </ul>
+  <li>
+    <a href="#" className="twitter">
+      <i className="fa fa-twitter"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="facebook">
+      <i className="fa fa-facebook"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="instagram">
+      <i className="fa fa-instagram"></i>
+    </a>
+  </li>
+</ul>
+
              </div>
 
             </div>
@@ -66,16 +79,22 @@ function Biography () {
              <div className="team-info">
               <p>Vidit designs a user-friendly interface that complements the functionality of the application</p>
               <ul className="team-icon">
-                <li><a href="#" className="Twitter">
-                <i className="fa-fa-twitter"></i>
-                </a></li>
-                <li><a href="#" className="Facebook">
-                <i className="fa-fa-facebook"></i>
-                </a></li>
-                <li><a href="#" className="instagram">
-                <i className="fa-fa-instagram"></i>
-                </a></li>
-              </ul>
+  <li>
+    <a href="#" className="twitter">
+      <i className="fa fa-twitter"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="facebook">
+      <i className="fa fa-facebook"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="instagram">
+      <i className="fa fa-instagram"></i>
+    </a>
+  </li>
+</ul>
              </div>
 
             </div>
@@ -88,16 +107,22 @@ function Biography () {
              <div className="team-info">
               <p>Shubham coordinates testing and quality assurance to ensure the product meets the highest standards.</p>
               <ul className="team-icon">
-                <li><a href="#" className="Twitter">
-                <i className="fa-fa-twitter"></i>
-                </a></li>
-                <li><a href="#" className="Facebook">
-                <i className="fa-fa-facebook"></i>
-                </a></li>
-                <li><a href="#" className="instagram">
-                <i className="fa-fa-instagram"></i>
-                </a></li>
-              </ul>
+  <li>
+    <a href="#" className="twitter">
+      <i className="fa fa-twitter"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="facebook">
+      <i className="fa fa-facebook"></i>
+    </a>
+  </li>
+  <li>
+    <a href="#" className="instagram">
+      <i className="fa fa-instagram"></i>
+    </a>
+  </li>
+</ul>
              </div>
 
             </div>
