@@ -3,7 +3,7 @@ import React from "react";
 const DoctorDashboard = ({ user }) => {
   return (
     <div>
-      <h1>Welcome, Dr. {user.name}</h1>
+      <h1 className="text-3xl font-bold underline" >Welcome, Dr. {user.name}</h1>
       <div>
         <h2>Upcoming Appointments</h2>
         {/* Fetch and display appointments linked to the doctor */}

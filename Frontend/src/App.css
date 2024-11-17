@@ -5,9 +5,12 @@
   box-sizing: border-box;
   overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
+
 }
 .hscreen{
   height: 100vh;
+  margin: 30px;
+  padding: 20px;
 }
 body {
   font-family: 'Montserrat', sans-serif;
@@ -550,158 +553,216 @@ color:#dedede;
 }
 
 /**********************************************************************************************************************/
-nav {
+/* General Styles */
+nav.container {
   display: flex;
-  width: 100%;
-  margin: 0 auto;
   justify-content: space-between;
-  /* position: absolute; */
   align-items: center;
-  border-bottom-right-radius: 7px;
-  border-bottom-left-radius: 7px;
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
-  /* z-index: 2; */
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #3b3b3b, #555);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  /* position: static; */
+  /* top: 0;
+  left: 0; */
+  width: 100%;
+  z-index: 1000;
+  transition: background 0.3s ease;
+  box-sizing: border-box;
 }
-nav .logo {
-  /* flex: 1; */
+
+nav.container:hover {
+  background: linear-gradient(135deg, #1e1e1e, #444);
+}
+
+nav .logo-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+nav .navLinks {
   display: flex;
   align-items: center;
-  font-size: 2rem;
-  border-radius: 100px;
-  margin-right: 40px;
+  gap: 30px;
 
 }
-nav .navLinks {
-  flex: 2;
-}
-nav .navLinks {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 nav .navLinks .links {
   display: flex;
   gap: 25px;
 }
+
 nav .navLinks .links a {
   text-decoration: none;
-  color: #222;
-  font-size: 20px;
+  color: #fff;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 1.4px;
+  letter-spacing: 1.1px;
+  position: relative;
+  transition: color 0.3s ease, padding 0.3s ease;
 }
-nav .navLinks .links a:hover {
-  color: orangered;
-  transition: 0.3s;
-  cursor: pointer;
-  /* background-color: skyblue; */
-  /* border-radius: 10px; */
-}
-nav .btn {
-  padding: 8px 20px;
-  color: #e5e5e5;
-  background: transparent;
-  border: none;
-  border-radius: 20px;
-  font-size: 20px;
-  font-weight: 600;
-  z-index: 2;
 
+nav .navLinks .links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #f97316;
+  left: 0;
+  bottom: -5px;
+  transition: width 0.3s ease;
 }
-nav .btn:hover{
-  color: orangered;
+
+nav .navLinks .links a:hover {
+  color: #f97316;
+  padding-bottom: 8px;
+}
+
+nav .navLinks .links a:hover::after {
+  width: 100%;
+}
+
+nav .btn {
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: #f97316;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-nav .logoutBtn {
-  background: linear-gradient(135deg, black, rgb(49, 49, 49));
+
+nav .btn:hover {
+  background: #e25807;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
-nav .loginBtn {
-  background: linear-gradient(135deg, black, rgb(49, 49, 49));
-}
+
 nav .hamburger {
   display: none;
+  cursor: pointer;
+  z-index: 1100;
 }
-nav svg {
-  font-size: 1.75rem;
+
+nav .hamburger svg {
+  color: white;
+  width: 30px;
+  height: 30px;
 }
-@media (max-width: 1520px) {
-  nav {
-    min-width: 100%;
-    padding: 25px 20px 40px 20px;
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  nav.container {
+    padding: 15px 20px;
+  }
+
+  nav .logo-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  nav .navLinks {
+    gap: 20px;
+  }
+
+  nav .navLinks .links a {
+    font-size: 16px;
   }
 }
-@media (max-width: 1100px) {
-  nav {
-    background: #ffffffbf;
+
+@media (max-width: 768px) {
+  nav.container {
+    padding: 20px 15px;
+  }
+
+  nav .navLinks {
     position: fixed;
     top: 0;
-    left: 0;
-  }
-  nav .hamburger {
-    display: flex;
-  }
-  nav .navLinks {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 15px 7.5px;
-    z-index: 2;
-    transition: 0.3s;
-    position: fixed;
-    left: 0;
-    height: 100%;
-    width: 400px;
-    background: #ffffffbf;
-    top: 79px;
-  }
-  nav .showmenu {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 15px 7.5px;
-    z-index: 2;
-    transition: 0.3s;
-    position: fixed;
     left: -100%;
-    width: 400px;
     height: 100%;
-    background: #ffffffbf;
-    top: 79px;
+    width: 75%;
+    background: #333;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    transition: left 0.4s ease;
+    z-index: 999;
   }
+
+  nav .navLinks.showmenu {
+    left: 0;
+  }
+
   nav .navLinks .links {
     flex-direction: column;
+    gap: 25px;
+  }
+
+  nav .navLinks .links a {
+    font-size: 20px;
+    padding: 10px 0;
     text-align: center;
   }
+
+  nav .btn {
+    width: 80%;
+    text-align: center;
+    font-size: 18px;
+    padding: 15px 0;
+  }
+
+  nav .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  nav.container {
+    padding: 20px 10px;
+  }
+
+  nav .logo-img {
+    width: 45px;
+    height: 45px;
+  }
+
   nav .navLinks .links a {
-    font-weight: 700;
+    font-size: 18px;
+    padding: 12px 0;
   }
-  nav .logoutBtn {
-    margin-top: 20px;
-  }
-}
-@media (max-width: 800px) {
-  nav .showmenu {
-    width: 96vw;
+
+  nav .btn {
+    font-size: 14px;
+    padding: 12px 0;
   }
 }
-@media (max-width: 650px) {
-  nav .showmenu {
-    margin: 0;
-    width: 100%;
-    border-radius: 0;
+
+@media (max-width: 350px) {
+  nav.container {
+    padding: 20px 5px;
+  }
+
+  nav .logo-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  nav .navLinks .links a {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+
+  nav .btn {
+    font-size: 12px;
+    padding: 10px 0;
   }
 }
-@media (max-width: 555px) {
-  nav {
-    background: #fff;
-  }
-  nav .navLinks {
-    background: #fff;
-    width: 100%;
-  }
-}
+
 
 input[type="date"]:before {
   content: attr(placeholder);
