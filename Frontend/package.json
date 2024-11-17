@@ -37,6 +37,7 @@
     "vite": "^5.4.10"
   },
 <<<<<<< HEAD
+{
   "description": "smart healthcare system using node js",
   "main": "index.js",
   "repository": {
@@ -55,6 +56,8 @@
     "url": "https://github.com/Anish2944/CarePlus/issues"
   },
   "homepage": "https://github.com/Anish2944/CarePlus#readme"
+}
+
 =======
   "description": "��#\u0000 \u0000C\u0000a\u0000r\u0000e\u0000P\u0000l\u0000u\u0000s\u0000\r\u0000 \u0000",
   "main": "vite.config.js",
