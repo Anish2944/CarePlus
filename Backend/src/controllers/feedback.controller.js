@@ -12,7 +12,7 @@ const createFeedback = asyncHandler(async (req, res) => {
     const feedback = await Feedback.create({
         rating,
         comments,
-        user_id: req.user._id,
+        user_id: req.user?._id,
         appointmentId
     });
 
@@ -25,7 +25,7 @@ const createFeedback = asyncHandler(async (req, res) => {
 
 const getFeedbacksForDoctor = asyncHandler(async (req, res) => {
 
-    const userId = req.user._id;
+    const userId = req.user?._id;
     
     if (!userId) {
         throw new ApiError(400, "User ID not found")

@@ -13,7 +13,7 @@ const createPatientProfile = asyncHandler(async (req, res) => {
     const profileImageLocalPath = req.file?.path;
     const profileImage = profileImageLocalPath ? await uploadOnCloudinary(profileImageLocalPath) : null;
 
-    const existingProfile = await Patient.findOne({ user_id: req.user._id });
+    const existingProfile = await Patient.findOne({ user_id: req.user?._id });
     if (existingProfile) {
         throw new ApiError(400, "Patient profile already exists for this user");
     }
@@ -26,7 +26,7 @@ const createPatientProfile = asyncHandler(async (req, res) => {
         blood_group,
         About,
         emergency_contact,
-        user_id: req.user._id
+        user_id: req.user?._id
     });
 
     const createdPatient = await Patient.findById(patient._id).populate({
@@ -42,7 +42,7 @@ const createPatientProfile = asyncHandler(async (req, res) => {
 });
 
 const getPatientByUserId = asyncHandler(async (req, res) => {
-    const patient = await Patient.findOne({ user_id: req.user._id }).populate({
+    const patient = await Patient.findOne({ user_id: req.user?._id }).populate({
         path: 'user_id',
         select: '-password -refreshToken'
     });
@@ -120,7 +120,7 @@ const updateProfileImage = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Image file is missing");
     }
 
-    const patientProfile = await Patient.findOne({ user_id: req.user._id });
+    const patientProfile = await Patient.findOne({ user_id: req.user?._id });
     if (!patientProfile) {
         throw new ApiError(404, "Patient profile not found");
     }

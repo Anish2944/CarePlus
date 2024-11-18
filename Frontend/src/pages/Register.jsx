@@ -59,7 +59,7 @@ const handleRegistration = async (e) => {
               type="text"
               placeholder="Name"
               value={name}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div>
@@ -73,16 +73,21 @@ const handleRegistration = async (e) => {
               type="number"
               placeholder="Mobile Number"
               value={phoneNumber}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
           <div>
-            <input
-              type="string"
-              placeholder="Role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            />
+         <select
+             value={role}
+             onChange={(e) => setRole(e.target.value)}
+          >
+          <option value="" disabled>
+             Select Role
+          </option>
+          <option value="patient">Patient</option>
+          <option value="doctor">Doctor</option>
+        </select>
+
             <input
               type="password"
               placeholder="Password"

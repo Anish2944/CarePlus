@@ -4,7 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 
 const createDoctor = asyncHandler(async (req, res) => {
-    const { specialization, fees, qualification, experience } = req.body;
+    const { specialization, fees, qualification, experience, } = req.body;
     if (!specialization || !qualification || !experience) {
         throw new ApiError(400, "All fields are required")
     }
@@ -13,8 +13,8 @@ const createDoctor = asyncHandler(async (req, res) => {
     const profileImage = profileImageLocalPath ? await uploadOnCloudinary(profileImageLocalPath) : null;
 
     const doctor = await Doctor.create({
-        user_id: req.user._id,
-        profileImage: profileImage.url || "",
+        user_id: req?.user._id,
+        profileImage: profileImage?.url || "",
         specialization,
         fees,
         qualification,
@@ -142,7 +142,7 @@ const updateProfileImage = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Image file is missing");
     }
 
-    const doctorProfile = await Doctor.findOne({ user_id: req.user._id });
+    const doctorProfile = await Doctor.findOne({ user_id: req.user?._id });
     if (!doctorProfile) {
         throw new ApiError(404, "Doctor profile not found");
     }
@@ -162,7 +162,7 @@ const updateProfileImage = asyncHandler(async (req, res) => {
 });
 
 const getDoctorByUserId = asyncHandler(async (req, res) => {
-    const doctor = await Doctor.findOne({ user_id: req.user._id }).populate({
+    const doctor = await Doctor.findOne({ user_id: req.user?._id }).populate({
         path: 'user_id',
         select: '-password -refreshToken'
     });
