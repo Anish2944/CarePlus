@@ -76,7 +76,7 @@ h6 {
   }
 }
 .container {
-  max-width: 1200px;
+  max-width: 1540px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -284,7 +284,7 @@ h6 {
   transition: all 0.25s ease-in-out;
 }
 .team-item:hover {
-  background: #3956de;
+  background: #000;
   color: white;
 }
 .team-item h3 {
@@ -336,54 +336,64 @@ h6 {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-
 }
- ul.team-icon {
-  margin-top: 25px;
+.team-icon {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 0 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
 
- }
- ul.team-icon li {
+.team-icon li {
   display: inline-block;
-  margin: 0 3px;
-  -webkit-transition: all 0.25s ease-in-out;
-  -moz-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
+}
 
+.team-icon a {
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: #4caf50;
+  transition: color 0.3s ease;
+}
 
- }
- ul.team-icon li a {
-  margin: 0;
-  display: inline-block;
-  padding: 8px 8px;
-  width: 34px;
-  height: 34px;
-  font-size: 18px;
-  line-height: 18px;
-  background-color: #fff;
-  border-radius: 50%;
-  color: #fff;
+.team-icon a:hover {
+  color: #333;
+}
 
+.team-icon .twitter a {
+  color: #1da1f2;
+}
 
- }
- ul.team-icon li a.twitter {
-  background-color: #4099ff;
- }
- ul.team-icon li a.facebook {
-  background-color: #c92228;
- }
- ul.team-icon li a.instagram {
-  background-color: #db5998;
- }
+.team-icon .facebook a {
+  color: #3b5998;
+}
 
- .team-icon li a:hover {
-color:#dedede;
--webkit-transition: all 0.25s ease-in-out;
-  -moz-transition: all 0.25s ease-in-out;
-  -ms-transition:all 0.25s ease-in-out;
-  -o-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
- }
-  
+.team-icon .instagram a {
+  color: #e4405f;
+}
+@media (max-width: 768px) {
+  .team-item {
+    margin-bottom: 30px;
+  }
+
+  .team-info h2 {
+    font-size: 1.6rem;
+  }
+
+  .team-info h3 {
+    font-size: 1rem;
+  }
+
+  .team-icon {
+    gap: 10px;
+  }
+
+  .team-icon a {
+    font-size: 1.2rem;
+  }
+}
+ 
 .contact-form {
   padding: 50px 0;
   text-align: center;
