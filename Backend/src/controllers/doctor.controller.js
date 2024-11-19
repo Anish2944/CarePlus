@@ -136,8 +136,8 @@ const updateAvailableTimeSlots = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, doctor, "Available time slots updated successfully"));
 });
 
-
 const updateProfileImage = asyncHandler(async (req, res) => {
+    console.log(req.file);
     const ImageLocalpath = req.file?.path;
     if (!ImageLocalpath) {
         throw new ApiError(400, "Image file is missing");
