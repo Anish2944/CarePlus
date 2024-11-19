@@ -148,19 +148,27 @@ const updateProfileImage = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Doctor profile not found");
     }
 
+    // Delete existing profile image if available
     if (doctorProfile.profileImage) {
-        await deleteFromCloudinary(doctorProfile.profileImage.public_id);
+        try {
+            await deleteFromCloudinary(doctorProfile.profileImage);
+        } catch (error) {
+            console.error("Error deleting existing profile image:", error);
+        }
     }
 
+    // Upload new image
     const uploadedImage = await uploadOnCloudinary(ImageLocalpath);
-    if (!uploadedImage.url) {
+    if (!uploadedImage?.url) {
         throw new ApiError(400, "Error while uploading profile image");
     }
+
     doctorProfile.profileImage = uploadedImage.url;
     await doctorProfile.save();
 
     return res.status(200).json(new ApiResponse(200, doctorProfile, "Profile image updated successfully"));
 });
+
 
 const getDoctorByUserId = asyncHandler(async (req, res) => {
     const doctor = await Doctor.findOne({ user_id: req.user?._id }).populate({

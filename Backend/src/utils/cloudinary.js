@@ -33,17 +33,25 @@ import { ApiError } from './ApiError.js';
         }
     } 
     const extractPublicId = (avatarUrl) => {
+        if (!avatarUrl) {
+            throw new Error("Avatar URL is undefined or invalid.");
+        }
         const urlParts = avatarUrl.split('/');
         const publicIdWithExtension = urlParts[urlParts.length - 1];
         const publicId = publicIdWithExtension.split('.')[0];
         return publicId;
-      };
+    };
+    
       const deleteFromCloudinary = async (url) => {
-          const publicId = extractPublicId(url);
-          const isVideo = url.match(/\.(mp4|avi|mkv|mov)$/i);
-          try {
+        if (!url) {
+            console.log("No URL provided for deletion.");
+            return;
+        }
+        const publicId = extractPublicId(url);
+        const isVideo = url.match(/\.(mp4|avi|mkv|mov)$/i);
+        try {
             const result = await cloudinary.uploader.destroy(publicId, {
-                resource_type: isVideo ? "video" : "image" // Set the resource type dynamically
+                resource_type: isVideo ? "video" : "image", // Set the resource type dynamically
             });
             console.log("Cloudinary deletion result:", result);
     
@@ -56,7 +64,7 @@ import { ApiError } from './ApiError.js';
             console.error("Error during Cloudinary deletion:", error);
             throw new ApiError(500, "Existing file could not be deleted from Cloudinary");
         }
-    }
+    };    
      
 
 export {uploadOnCloudinary,deleteFromCloudinary}
