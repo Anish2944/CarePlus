@@ -3,50 +3,48 @@ import { Appointment } from "../models/appointment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Doctor } from "../models/doctor.model.js";
+import { v4 as uuidv4 } from 'uuid';
+import { getDayOfWeek } from "../utils/getdayofweek.js";
 
 
 const createAppointment = asyncHandler(async (req, res) => {
     const { doctorId, patientId, appointmentDate, timeSlot } = req.body;
 
-    // Validate required fields
-    if (!doctorId || !patientId || !appointmentDate || !timeSlot) {
-        throw new ApiError(400, "All fields are required");
-    }
+    const dayOfWeek = getDayOfWeek(appointmentDate); // "Monday", etc.
 
-    // Find the doctor with the specific day and time slot available
-    const doctor = await Doctor.findOne({
-        _id: doctorId,
-        "available_time_slots.day": appointmentDate,
-        "available_time_slots.times.time": timeSlot,
-        "available_time_slots.times.status": "available"
-    });
+    const doctor = await Doctor.findOneAndUpdate(
+        { 
+            _id: doctorId,
+            "available_time_slots.day": dayOfWeek,
+            "available_time_slots.times.time": timeSlot,
+            "available_time_slots.times.status": "available"
+        },
+        { 
+            $set: { "available_time_slots.$[dayElem].times.$[timeElem].status": "booked" } 
+        },
+        { 
+            arrayFilters: [{ "dayElem.day": dayOfWeek }, { "timeElem.time": timeSlot }],
+            new: true 
+        }
+    );
 
     if (!doctor) {
-        throw new ApiError(400, "The selected time slot is already booked or does not exist");
+        throw new ApiError(400, "Selected time slot is unavailable");
     }
 
-    // Create the appointment
     const appointment = await Appointment.create({
         doctorId,
         patientId,
+        roomId: uuidv4(),
         appointmentDate,
-        timeSlot,
+        timeSlot: { day: dayOfWeek, time: timeSlot },
         status: "scheduled"
     });
 
-    if (!appointment) {
-        throw new ApiError(500, "Something went wrong while creating the appointment");
-    }
-
-    // Update the doctor's specific slot to "booked"
-    await Doctor.updateOne(
-        { _id: doctorId, "available_time_slots.day": appointmentDate, "available_time_slots.times.time": timeSlot },
-        { $set: { "available_time_slots.$[dayElem].times.$[timeElem].status": "booked" } },
-        { arrayFilters: [{ "dayElem.day": appointmentDate }, { "timeElem.time": timeSlot }] }
-    );
-
-    return res.status(201).json(new ApiResponse(201, appointment, "Appointment created and slot marked as booked"));
+    return res.status(201).json(new ApiResponse(201, appointment, "Appointment booked successfully"));
 });
+
+
 
 const getAppointmentById = asyncHandler(async (req, res) => {
     const { appointmentId } = req.params;

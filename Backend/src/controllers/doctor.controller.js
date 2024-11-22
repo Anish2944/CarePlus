@@ -100,19 +100,19 @@ const toggleDoctorStatus = asyncHandler(async (req, res) => {
 const updateAvailableTimeSlots = asyncHandler(async (req, res) => {
     const { available_time_slots } = req.body;
     
-    // Validate the structure of available_time_slots based on the new schema
+    // Validate the structure of available_time_slots
     if (
         !Array.isArray(available_time_slots) || 
         available_time_slots.some(slot => 
-            !slot.day || 
+            typeof slot.day !== 'string' || 
             !Array.isArray(slot.times) || 
             slot.times.some(time => 
                 typeof time.time !== 'string' || 
-                (time.status && typeof time.status !== 'string')
+                (time.status && !["available", "booked"].includes(time.status))
             )
         )
     ) {
-        throw new ApiError(400, "Each entry must include a day and an array of times with both 'time' and 'status' fields");
+        throw new ApiError(400, "Each entry must include a valid 'day' and an array of times with 'time' and 'status' fields");
     }
 
     const { doctorId } = req.params;
@@ -120,10 +120,11 @@ const updateAvailableTimeSlots = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Doctor ID is required");
     }
 
+    // Update the doctor's available time slots
     const doctor = await Doctor.findOneAndUpdate(
         { _id: doctorId },
-        { available_time_slots }, // Update with the new structure
-        { new: true }
+        { $set: { available_time_slots } }, // Explicitly use `$set` to avoid accidental overwrites
+        { new: true, runValidators: true } // Enforce schema validation during update
     ).populate({
         path: 'user_id',
         select: '-password -refreshToken'
@@ -135,6 +136,7 @@ const updateAvailableTimeSlots = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, doctor, "Available time slots updated successfully"));
 });
+
 
 const updateProfileImage = asyncHandler(async (req, res) => {
     console.log(req.file);
