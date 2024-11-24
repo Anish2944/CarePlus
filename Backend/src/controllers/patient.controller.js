@@ -126,7 +126,11 @@ const updateProfileImage = asyncHandler(async (req, res) => {
     }
 
     if (patientProfile.profileImage) {
-        await deleteFromCloudinary(patientProfile.profileImage);
+        try {
+            await deleteFromCloudinary(patientProfile.profileImage);
+        } catch (error) {
+            console.error("Error deleting existing profile image:", error);
+        }
     }
 
     const profileImage = await uploadOnCloudinary(ImageLocalpath);
